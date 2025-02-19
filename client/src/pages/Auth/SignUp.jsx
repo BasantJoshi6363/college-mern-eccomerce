@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import aaa from "../../assets/aaa.png";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
+  const navigate = useNavigate()
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,7 +20,10 @@ const SignUp = () => {
     setSuccess(false);
 
     try {
-      const response = await axios.post('http://localhost:3000/auth/register', { name, email, password });
+      const data = {
+        name,email,password
+      }
+      const response = await axios.post('http://localhost:5000/api/auth/register', data);
       if (response.data.success) {
         setSuccess(true);
       } else {
@@ -30,6 +34,7 @@ const SignUp = () => {
       setError('Registration failed');
     } finally {
       setLoading(false);
+      navigate("/login")
     }
   };
 
@@ -46,18 +51,19 @@ const SignUp = () => {
       <h5 className='font-semibold text-2xl'>Create An Account</h5>
       <p className='text-zinc-400 text-sm mt-2'>Enter your detail's below:</p> 
       </div>
-  
+    <form onSubmit={handleSubmit}>
         <div className="inputs border-b border-zinc-500 w-full ">
-          <input type="text" className='py-2 px-1 w-full outline-none bg-transparent border-none placeholder:text-sm' placeholder='enter your username' />
+          <input value={name} onChange={(e)=>setName(e.target.value)} type="text" className='py-2 px-1 w-full outline-none bg-transparent border-none placeholder:text-sm' placeholder='enter your username' />
         </div>
         <div className="inputs border-b border-zinc-500 ">
-          <input type="text" className='py-2 px-1 w-full outline-none bg-transparent border-none placeholder:text-sm' placeholder='enter your email Or Phone Number' />
+          <input value={email} onChange={(e)=>setEmail(e.target.value)} type="text" className='py-2 px-1 w-full outline-none bg-transparent border-none placeholder:text-sm' placeholder='enter your email Or Phone Number' />
         </div>
         <div className="inputs border-b border-zinc-500 ">
-          <input type="password" className='py-2 px-1 w-full outline-none bg-transparent border-none placeholder:text-sm' placeholder='enter your password' />
+          <input value={password} onChange={(e)=>setPassword(e.target.value)} type="password" className='py-2 px-1 w-full outline-none bg-transparent border-none placeholder:text-sm' placeholder='enter your password' />
         </div>
         <button className='text-white w-[180px] bg-[#DB4545] p-2 cursor-pointer hover:opacity-80 rounded-sm mt-5'>Create Account</button>
-        <p className='text-sm'>Already have an Account ? <Link className='font-semibold' to={"/login"}>Login</Link></p>
+        <p className='text-sm mt-5'>Already have an Account ? <Link className='font-semibold' to={"/login"}>Login</Link></p>
+      </form>
       </div>
     </div>
   </div>
