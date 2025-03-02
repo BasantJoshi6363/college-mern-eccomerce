@@ -5,6 +5,7 @@ import Model from '../component/Model'
 import axios from "axios"
 import Phone from '../component/Phone'
 import SearchCategory from '../component/SearchCategory'
+import { useAuth0 } from '@auth0/auth0-react'
 
 const Home = () => {
   const [flash, setFlash] = useState([])

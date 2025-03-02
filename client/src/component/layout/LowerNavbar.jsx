@@ -6,7 +6,6 @@ import Dropdown from "../Dropdown";
 
 const LowerNavbar = () => {
   const { isAuthenticated,user } = useAuth0();
-  console.log(user)
   const navLinks = [
     { name: "Home", to: "/" },
     { name: "Contact", to: "/contact" },

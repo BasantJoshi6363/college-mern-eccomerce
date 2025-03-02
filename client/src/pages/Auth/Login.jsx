@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import aaa from "../../assets/aaa.png";
-import { Link,useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { FaEye, FaEyeSlash, FaEnvelope, FaLock, FaArrowRight, FaGoogle, FaFacebook } from 'react-icons/fa';
 import { useAuth0 } from "@auth0/auth0-react";
 const Login = () => {
   const navigate = useNavigate();
-  const { loginWithRedirect,isAuthenticated } = useAuth0();
-  console.log(isAuthenticated)
-  if(isAuthenticated){
+  const { loginWithRedirect, isAuthenticated } = useAuth0()
+  
+  if (isAuthenticated) {
     navigate("/")
   }
   const [email, setEmail] = useState('');
@@ -20,30 +20,9 @@ const Login = () => {
   const [success, setSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e)=>{
     e.preventDefault();
-    setLoading(true);
-    setError(null);
-    setSuccess(false);
-
-    try {
-      const data = {
-        email, password
-      }
-      const response = await axios.post('http://localhost:5000/api/auth/login', data);
-      console.log(response.data)
-      if (response.data.success) {
-        setSuccess(true);
-      } else {
-        setError('Login failed');
-      }
-    } catch (error) {
-      console.error('Error logging in', error);
-      setError('Login failed. Please check your credentials.');
-    } finally {
-      setLoading(false);
-    }
-  };
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4">
