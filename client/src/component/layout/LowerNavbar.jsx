@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FiSearch, FiHeart, FiShoppingCart, FiMenu, FiX } from "react-icons/fi";
+import { useAuth0 } from "@auth0/auth0-react";
+import Dropdown from "../Dropdown";
 
 const LowerNavbar = () => {
-  // Navigation links array
+  const { isAuthenticated,user } = useAuth0();
+  console.log(user)
   const navLinks = [
     { name: "Home", to: "/" },
     { name: "Contact", to: "/contact" },
@@ -78,6 +81,7 @@ const LowerNavbar = () => {
             >
               <FiShoppingCart className="size-5" />
             </button>
+            {isAuthenticated &&(<Dropdown imageUrl={user.picture} />) }
           </div>
         </div>
       </div>

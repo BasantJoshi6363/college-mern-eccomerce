@@ -26,12 +26,13 @@ const Home = () => {
         <Category />
         <ImageSlider />
       </div>
-      <Model value={"Flash Sales"} timer={true} data={flash} />
-      <div className="category px-8 mt-5">
+
+      {/* <Model value={"Flash Sales"} timer={true} data={flash} /> */}
+      {/* <div className="category px-8 mt-5">
         <Phone type={"Categoires"} />
         <h2 className='mt-5 font-semibold'>Browse By Category</h2>
         <SearchCategory />
-      </div>
+      </div> */}
 
     </div>
   )

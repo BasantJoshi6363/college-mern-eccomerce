@@ -9,7 +9,7 @@ const FlashSale = () => {
         <Product />
         <Product />
         <Product />
-        <Product />
+        {/* <Product /> */}
       </div>
     </div>
   );

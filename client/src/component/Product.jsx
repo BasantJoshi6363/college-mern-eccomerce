@@ -1,11 +1,11 @@
-"use client"
 
-import { useState } from "react"
 import { Link } from "react-router-dom"
+import { useCart } from "../context/CartContext"
 
 
 export default function ProductCard({id,name,image,description,price}) {
-
+  const {addToCart} = useCart();
+  
   return (
     <div className="w-1/5 lg:w-full bg-white rounded-lg shadow-sm">
      <Link to={`/products/${id}`}>
@@ -34,7 +34,7 @@ export default function ProductCard({id,name,image,description,price}) {
               <span className="text-lg font-bold text-red-500">{price}$</span>
               <span className="text-sm text-gray-500 line-through">$360</span>
             </div>
-            <button className="bg-red-400 cursor-pointer w-[200px] py-2 text-white">Add to Cart</button>
+            <button onClick={()=>addToCart(id)}  className="bg-red-400 cursor-pointer w-[200px] py-2 text-white">Add to Cart</button>
           </div>
         </div>
       </div>
