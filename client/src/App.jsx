@@ -8,14 +8,15 @@ import Home from './pages/Home'
 import PageNot from './component/PageNot'
 import BrowseByCategory from './component/BrowseByCategory'
 import SinglePage from './component/SinglePage'
+import Cart from './component/cart/Cart'
 
 const App = () => {
   return (
     <div>
       <Navbar />
       <Routes>
-        <Route path='/' element={<Home/>}></Route>
-        <Route path='/cat/:category' element={<BrowseByCategory/>}></Route>
+        <Route path='/' element={<Home />}></Route>
+        <Route path='/cat/:category' element={<BrowseByCategory />}></Route>
         <Route path='/login' element={<Login />}></Route>
         <Route path='/register' element={<SignUp />}></Route>
         <Route path='/about' element={<SignUp />}></Route>
@@ -23,6 +24,7 @@ const App = () => {
         <Route path='/signup' element={<SignUp />}></Route>
         <Route path='/*' element={<PageNot />}></Route>
         <Route path='/products/:id' element={<SinglePage />}></Route>
+        <Route path='/cart' element={<Cart />}></Route>
       </Routes>
       {/* <Footer /> */}
     </div>
