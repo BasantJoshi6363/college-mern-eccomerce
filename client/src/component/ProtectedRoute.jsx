@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 const ProtectedRoute = ({ children }) => {
+    const navigate = useNavigate();
     const { isAuthenticated } = useAuth0();
     console.log(isAuthenticated)
     return (
-        isAuthenticated ? children : <Navigate to="/login" replace />
+        isAuthenticated ? children : useEffect(() => { navigate("/login") }, [])
     )
 }
 

@@ -13,8 +13,9 @@ import Signout from './pages/Auth/Signout'
 import RegisterUser from './pages/Auth/RegisterUser'
 import ProductCreationForm from './component/Product/ProductForm'
 import ProtectedRoute from './component/ProtectedRoute'
+import Profile from './component/Profile/Profile'
 const App = () => {
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated,user } = useAuth0();
   return (
     <div>
       <Navbar />
@@ -29,6 +30,11 @@ const App = () => {
         <Route path='/product/create' element={
           <ProtectedRoute>
             <ProductCreationForm />
+          </ProtectedRoute>}>
+        </Route>
+        <Route path='/profile' element={
+          <ProtectedRoute>
+            <Profile info={user} />
           </ProtectedRoute>}>
         </Route>
         {/* <Route path='/cat/:category' element={<BrowseByCategory />}></Route>

@@ -48,7 +48,7 @@ const Footer = () => {
           <h3 className="mb-2 text-base font-bold">Account</h3>
           <ul className="space-y-1 text-xs">
             <li>
-              <Link to="/account">My Account</Link>
+              <Link to="/profile">My Account</Link>
             </li>
             <li>
               <Link to="/login">Login / Register</Link>
