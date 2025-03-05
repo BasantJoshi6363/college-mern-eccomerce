@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const Dropdown = ({ imageUrl }) => {
+const Dropdown = ({ imageUrl,username }) => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
 
@@ -44,6 +44,7 @@ const Dropdown = ({ imageUrl }) => {
                 onMouseLeave={handleMouseLeave}
             >
                 <div className="py-1">
+                    <p className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>Hello {username}👋</p>
                     <Link to="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                         Your Profile
                     </Link>

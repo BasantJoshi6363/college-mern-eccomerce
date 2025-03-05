@@ -80,7 +80,7 @@ const LowerNavbar = () => {
             >
               <FiShoppingCart className="size-5" />
             </button>
-            {isAuthenticated &&(<Dropdown imageUrl={user.picture} />) }
+            {isAuthenticated &&(<Dropdown username={user.nickname} imageUrl={user.picture} />) }
           </div>
         </div>
       </div>

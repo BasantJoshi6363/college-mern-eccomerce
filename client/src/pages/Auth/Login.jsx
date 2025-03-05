@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import aaa from "../../assets/aaa.png";
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 import { FaEye, FaEyeSlash, FaEnvelope, FaLock, FaArrowRight, FaGoogle, FaFacebook } from 'react-icons/fa';
 import { useAuth0 } from "@auth0/auth0-react";
 const Login = () => {
+  const { loginWithRedirect, isAuthenticated } = useAuth0();
   const navigate = useNavigate();
-  const { loginWithRedirect, isAuthenticated } = useAuth0()
-  
-  if (isAuthenticated) {
-    navigate("/")
-  }
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/")
+    }
+
+  }, [isAuthenticated,navigate])
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [terms, setTerms] = useState(false);
@@ -20,7 +23,7 @@ const Login = () => {
   const [success, setSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e)=>{
+  const handleSubmit = (e) => {
     e.preventDefault();
   }
 

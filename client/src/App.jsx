@@ -37,6 +37,9 @@ const App = () => {
             <Profile info={user} />
           </ProtectedRoute>}>
         </Route>
+
+
+        <Route path='/cart' element={<Cart />}></Route>
         {/* <Route path='/cat/:category' element={<BrowseByCategory />}></Route>
         
         <Route path='/register' element={<SignUp />}></Route>
@@ -45,7 +48,7 @@ const App = () => {
         <Route path='/signup' element={<SignUp />}></Route>
         <Route path='/*' element={<PageNot />}></Route>
         <Route path='/products/:id' element={<SinglePage />}></Route>
-        <Route path='/cart' element={<Cart />}></Route> */}
+        // <Route path='/cart' element={<Cart />}></Route> */}
       </Routes>
       <Footer />
     </div>

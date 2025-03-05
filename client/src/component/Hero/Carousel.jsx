@@ -27,7 +27,6 @@ function SimpleSlider() {
        </div>
        <div className="h-64 w-full">
        <img src={car3} className="h-[100%] w-[100%]" alt="" />
-
        </div>
       </Slider>
     </div>

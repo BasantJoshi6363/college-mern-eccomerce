@@ -1,6 +1,7 @@
 import React from 'react';
 import CartItem from './CartItem';
 import { useCart } from '../../context/CartContext';
+import { Link } from 'react-router-dom';
 
 const Cart = () => {
   const {
@@ -35,7 +36,7 @@ const Cart = () => {
       <div className="flex justify-between mt-8">
         <div className="flex space-x-2">
           <button className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50 transition-colors">
-            Return To Shop
+           <Link to={"/"}>Return to Home</Link>
           </button>
           <button className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50 transition-colors">
             Update Cart

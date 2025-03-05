@@ -13,11 +13,11 @@ createRoot(document.getElementById('root')).render(
       redirect_uri: window.location.origin
     }}
     cacheLocation='localstorage'
-    >
-    <BrowserRouter>
-      <CartProvider>
+  >
+    <CartProvider>
+      <BrowserRouter>
         <App />
-      </CartProvider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </CartProvider>
   </Auth0Provider>
 )
