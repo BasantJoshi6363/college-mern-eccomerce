@@ -10,7 +10,7 @@ const LowerNavbar = () => {
     { name: "Home", to: "/" },
     { name: "Contact", to: "/contact" },
     { name: "About", to: "/about" },
-    { name: "Sign Up", to: "/signup" },
+  
   ];
 
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);

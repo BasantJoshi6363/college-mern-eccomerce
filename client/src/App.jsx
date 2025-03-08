@@ -10,7 +10,6 @@ import SinglePage from './component/SinglePage'
 import Cart from './component/cart/Cart'
 import { useAuth0 } from '@auth0/auth0-react'
 import Signout from './pages/Auth/Signout'
-import RegisterUser from './pages/Auth/RegisterUser'
 import ProductCreationForm from './component/Product/ProductForm'
 import ProtectedRoute from './component/ProtectedRoute'
 import Profile from './component/Profile/Profile'
@@ -19,10 +18,6 @@ const App = () => {
   return (
     <div>
       <Navbar />
-      {
-        !isAuthenticated ?
-          <RegisterUser /> : null
-      }
       <Routes>
         <Route path='/login' element={<Login />}></Route>
         <Route path='/' element={<Home />}></Route>

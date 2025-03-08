@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import aaa from "../../assets/aaa.png";
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { FaEye, FaEyeSlash, FaEnvelope, FaLock, FaArrowRight, FaGoogle, FaFacebook } from 'react-icons/fa';
 import { useAuth0 } from "@auth0/auth0-react";
 const Login = () => {
   const { loginWithRedirect, isAuthenticated } = useAuth0();
   const navigate = useNavigate();
+  console.log(isAuthenticated)
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/")
+      window.location.replace("/");
     }
+    navigate("/login")
 
-  }, [isAuthenticated,navigate])
+  }, [isAuthenticated, navigate])
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

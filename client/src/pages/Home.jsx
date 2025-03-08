@@ -8,19 +8,6 @@ import SearchCategory from '../component/SearchCategory'
 import { useAuth0 } from '@auth0/auth0-react'
 
 const Home = () => {
-  const [flash, setFlash] = useState([])
-  async function flashSale() {
-    try {
-      const resp = await axios.get("https://fakestoreapi.com/products?limit=8")
-      setFlash(resp.data);
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  useEffect(() => {
-    flashSale();
-  }, [])
-
   return (
     <div>
       <div className='hero flex h-[270px] w-full px-4'>

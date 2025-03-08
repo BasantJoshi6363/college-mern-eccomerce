@@ -4,6 +4,7 @@ import cloudinary from "../config/cloudinary.js";
 // Create a new product
 export const createProduct = async (req, res) => {
   try {
+    console.log("hello")
     const { name, description, price,category,stock } = req.body;
     const image = req.file ? req.file.path : null;
 

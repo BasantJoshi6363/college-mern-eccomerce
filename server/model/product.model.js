@@ -7,9 +7,9 @@ const productSchema = new mongoose.Schema(
       price: { type: Number, required: true },
       stock : {type : String},
       category : {type : String},
-      flashsale: {Type : Boolean},
       image: { type: String, required: true },
       user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+      isFlash : {type : String,required : true}
   },
   { timestamps: true }
 );

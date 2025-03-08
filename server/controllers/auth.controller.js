@@ -1,9 +1,30 @@
   import jwt from "jsonwebtoken"
 import { User } from "../model/user.model.js";
+import { Autho } from "../model/autho.model.js";
 
-// const generateToken = (id) => {
-//   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" });
-// };
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" });
+};
+
+export const authoRegister = async (req,res)=>{
+  try {
+    const {username,email,image} = req.body;
+    const result = await Autho.create({username,email,image});
+    if(result){
+      res.status(201).json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        token: generateToken(user._id),
+      })
+    }
+  } catch (error) {
+    res.status(400).json({ message: "Invalid user data" });
+    
+  }
+}
+
 
 export const registerUser = async (req, res) => {
   const { name, email, image, isAdmin } = req.body;  
@@ -18,7 +39,7 @@ export const registerUser = async (req, res) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
-      // token: generateToken(user._id),
+      token: generateToken(user._id),
     });
   } else {
     res.status(400).json({ message: "Invalid user data" });

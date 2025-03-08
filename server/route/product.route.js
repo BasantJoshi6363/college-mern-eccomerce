@@ -5,8 +5,6 @@ import { protect,admin } from "../middleware/auth.middleware.js";
 
 const product_router = express.Router();
 
-
-
 product_router.route("/create").post(protect, admin, upload.single("image"), createProduct)
 product_router.route("/").get(getProducts)
 product_router.route("/:cat").get(getProductByCategory)

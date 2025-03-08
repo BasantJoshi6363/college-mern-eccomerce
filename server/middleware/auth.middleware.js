@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken"
 import { User } from "../model/user.model.js";
 
 export const protect = async (req, res, next) => {
+  console.log("hiii")
   let token = req.headers.authorization;
   if (!token || !token.startsWith("Bearer ")) {
     return res.status(401).json({ message: "Not authorized" });
@@ -17,6 +18,7 @@ export const protect = async (req, res, next) => {
 };
 
 export const admin = (req, res, next) => {
+  console.log("hii")
   if (req.user && req.user.isAdmin) {
     next();
   } else {
