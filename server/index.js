@@ -1,19 +1,19 @@
 import express from "express";
-import dotenv from "dotenv"
 import cors from "cors"
 import { connectDB } from "./config/db.js";
 import auth_router from "./route/auth.route.js";
 import product_router from "./route/product.route.js";
 import order_route from "./route/order.route.js";
 import cart_router from "./route/cart.route.js"
+import dotenv from "dotenv"
 
 
-dotenv.config();
 connectDB();
 
 const app = express();
 app.use(express.json());
 app.use(cors());
+dotenv.config();
 
 app.use("/api/auth",auth_router);
 app.use("/api/products",product_router);

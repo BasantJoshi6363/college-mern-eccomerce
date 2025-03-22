@@ -1,80 +1,78 @@
-import React, { createContext, useContext, useState } from 'react';
+"use client"
 
-// Create the cart context
-const CartContext = createContext();
+import { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react"
+import { toast } from "react-toastify"
 
-// Custom hook to use the cart context
-export const useCart = () => {
-    return useContext(CartContext);
-};
+const CartContext = createContext()
 
-// Cart provider component
+export const useCart = () => useContext(CartContext)
+
 export const CartProvider = ({ children }) => {
-    const [cartItems, setCartItems] = useState([
-        {
-            id: '1',
-            name: 'LCD Monitor',
-            price: 550,
-            quantity: 1,
-            imageUrl: 'https://images.unsplash.com/photo-1586210579191-33b45e38fa2c?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80',
-        },
-        {
-            id: '2',
-            name: 'HI Gamepad',
-            price: 550,
-            quantity: 2,
-            imageUrl: 'https://images.unsplash.com/photo-1580327344181-c1163234e5a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80',
-        },
-    ]);
+  const [cartItems, setCartItems] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("cartItems")) || []
+    } catch {
+      return []
+    }
+  })
 
+  // Save to localStorage when cartItems change
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems))
+  }, [cartItems])
 
-    // Update item quantity
-    const updateQuantity = (id, newQuantity) => {
-        setCartItems(
-            cartItems.map((item) => (item.id === id ? { ...item, quantity: newQuantity } : item))
-        );
-    };
+  // Add item to cart - memoized with useCallback
+  const addToCart = useCallback((item) => {
+    setCartItems((prevItems) => {
+      const existingItemIndex = prevItems.findIndex((cartItem) => cartItem._id === item._id)
 
-    // Calculate subtotal
-    const calculateSubtotal = () => {
-        return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-    };
+      if (existingItemIndex !== -1) {
+        const updatedItems = [...prevItems]
+        updatedItems[existingItemIndex].quantity += 1
+        return updatedItems
+      }
 
-    // Add item to cart
-    const addToCart = (item) => {
-        const existingItem = cartItems.find((cartItem) => cartItem.id === item.id);
+      toast.success("Item added to cart.")
+      return [...prevItems, { ...item, quantity: 1 }]
+    })
+  }, [])
 
-        if (existingItem) {
-            updateQuantity(item.id, existingItem.quantity + 1);
-        } else {
-            setCartItems([...cartItems, { ...item, quantity: 1 }]);
-        }
-    };
+  // Update item quantity - memoized with useCallback
+  const updateQuantity = useCallback((_id, newQuantity) => {
+    setCartItems((prevItems) => prevItems.map((item) => (item._id === _id ? { ...item, quantity: newQuantity } : item)))
+  }, [])
 
-    // Remove item from cart
-    const removeFromCart = (id) => {
-        setCartItems(cartItems.filter((item) => item.id !== id));
-    };
+  // Remove item from cart - memoized with useCallback
+  const removeFromCart = useCallback((_id) => {
+    setCartItems((prevItems) => prevItems.filter((item) => item._id !== _id))
+  }, [])
 
-    // Clear cart
-    const clearCart = () => {
-        setCartItems([]);
-    };
+  // Clear cart - memoized with useCallback
+  const clearCart = useCallback(() => {
+    setCartItems([])
+  }, [])
 
-    const subtotal = calculateSubtotal();
-    const shipping = 'Free';
-    const total = subtotal;
+  // Memoized values to avoid unnecessary re-renders
+  const { subtotal, shipping, total } = useMemo(() => {
+    const subtotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0)
+    return { subtotal, shipping: "Free", total: subtotal }
+  }, [cartItems])
 
-    const value = {
-        cartItems,
-        updateQuantity,
-        addToCart,
-        removeFromCart,
-        clearCart,
-        subtotal,
-        shipping,
-        total
-    };
+  // Memoize the entire context value
+  const contextValue = useMemo(
+    () => ({
+      cartItems,
+      addToCart,
+      updateQuantity,
+      removeFromCart,
+      clearCart,
+      subtotal,
+      shipping,
+      total,
+    }),
+    [cartItems, addToCart, updateQuantity, removeFromCart, clearCart, subtotal, shipping, total],
+  )
 
-    return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
-};
+  return <CartContext.Provider value={contextValue}>{children}</CartContext.Provider>
+}
+

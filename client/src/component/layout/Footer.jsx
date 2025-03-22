@@ -6,22 +6,23 @@ import {
   FaLinkedin,
 } from "react-icons/fa";
 import { IoSend } from "react-icons/io5";
+
 import { Link } from "react-router-dom";
 
 const Footer = () => {
   const socialMediaLinks = [
-    { icon: <FaFacebookF />, url: "/facebook" },
-    { icon: <FaTwitter />, url: "/twitter" },
-    { icon: <FaInstagram />, url: "/instagram" },
-    { icon: <FaLinkedin />, url: "/linkedin" },
+    { icon: <FaFacebookF />, url: "https://www.facebook.com" },
+    { icon: <FaTwitter />, url: "https://www.x.com" },
+    { icon: <FaInstagram />, url: "https://www.instagram.com" },
+    { icon: <FaLinkedin />, url: "https://www.linkedin.com" },
   ];
 
   return (
-    <footer className="bg-black px-3 py-6 text-white">
+    <footer className="bg-black px-3 py-6 text-white flex items-center justify-center ">
       <div className="container px-6 grid grid-cols-1 gap-4  sm:grid-cols-2 lg:grid-cols-5">
         {/* Subscribe Section */}
         <div>
-          <h2 className="mb-2 text-base font-bold">exclusive</h2>
+          <h2 className="mb-2 text-base font-bold">EasyMart</h2>
           <p className="mb-2 text-xs">Get 10% off your first order</p>
           <div className="flex items-center overflow-hidden rounded-md border p-2">
             <input
@@ -37,10 +38,10 @@ const Footer = () => {
         <div>
           <h3 className="mb-2 text-base font-bold">Support</h3>
           <p className="text-xs">
-            111 Bijoy sarani, Dhaka, DH 1515, Bangladesh.
+            111 Khagendra Dhami, KTM, Nepal.
           </p>
-          <p className="text-xs">exclusive@gmail.com</p>
-          <p className="text-xs">+88015-88888-9999</p>
+          <p className="text-xs">khagenbdrdhami@gmail.com</p>
+          <p className="text-xs">+9779860657575</p>
         </div>
 
         {/* Account Section */}

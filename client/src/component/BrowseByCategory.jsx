@@ -1,38 +1,29 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import Model from './Model'
 import axios from "axios"
+import { useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import ProductCard from './Product'
 const BrowseByCategory = () => {
-    let message;
-    const [output,setOutput] = useState([])
-    const { category } = useParams();
-    const navigate = useNavigate()
-    console.log(category)
-    const fetchData = async () => {
+    const { category } = useParams()
+    const [cate, setCate] = useState([])
+    const getByCatgory = async () => {
         try {
-            const resp = await axios.get(`http://localhost:5000/api/products/${category}`)
-            setOutput(resp.data.products)
-            console.log(resp.data.products.length)
-            if(resp.data.products.length===0){
-
-                alert("currently we don't have any products")
-                navigate("/")
-                
-            }
+            const resp = await axios.get(`http://localhost:5000/api/products/categories/${category}`)
+            setCate(resp.data.products)
         } catch (error) {
-            console.log(error)
+            toast.error(error.message)
         }
     }
     useEffect(() => {
-        fetchData();
+        getByCatgory();
     }, [category])
     return (
-        <div>
-            <h1>{message}</h1>
-            {
-                output.map((val,i)=>{
-                    return <div key={i}> hii</div>
-                })
-            }
+        <div className='px-12 mt-3'>
+            <span className=' opacity-60 text-[13px]'>categories/{category}</span>
+            <div className='mt-2 grid lg:grid-cols-4 md:grid-col-2 sm:grid-cols-1 space-y-4'>
+                <ProductCard data={cate} />
+            </div>
         </div>
     )
 }

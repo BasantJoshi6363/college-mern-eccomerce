@@ -1,32 +1,33 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiSearch, FiHeart, FiShoppingCart, FiMenu, FiX } from "react-icons/fi";
-import { useAuth0 } from "@auth0/auth0-react";
+import { useCart } from "../../context/CartContext";
 import Dropdown from "../Dropdown";
+import { AuthContext } from "../../context/AuthContext";
 
 const LowerNavbar = () => {
-  const { isAuthenticated,user } = useAuth0();
+  const { cartItems } = useCart();
+  const { user, admin } = useContext(AuthContext);
+
   const navLinks = [
     { name: "Home", to: "/" },
     { name: "Contact", to: "/contact" },
     { name: "About", to: "/about" },
-  
+    { name: "Products", to: "/products" },
   ];
 
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="border-b border-black bg-white p-1">
-      <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+    <nav className="relative border-b border-black bg-white px-6 py-1">
+      <div className="mx-auto max-w-screen-xl sm:px-6 lg:px-6">
         <div className="flex h-10 items-center justify-between">
-          {/* Logo Section */}
           <div className="flex-shrink-0">
-            <Link to="/" className="text-[1.4vw]text-black text-2xl font-bold">
-              Exclusive
+            <Link to="/" className="text-[1.4vw] text-black text-2xl font-bold">
+              EasyMart
             </Link>
           </div>
 
-          {/* Mobile Menu Button */}
           <div className="flex md:hidden">
             <button
               onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
@@ -41,22 +42,27 @@ const LowerNavbar = () => {
             </button>
           </div>
 
-          {/* Navigation Links for larger screens */}
           <div className="hidden space-x-8 md:flex">
-            {navLinks.map((link, index) => (
+            <Link
+              className="rounded-md py-2 text-sm font-medium text-gray-900 hover:text-blue-600"
+              to={"/"}>Home</Link>
+            <Link
+              className="rounded-md py-2 text-sm font-medium text-gray-900 hover:text-blue-600"
+              to={"/contact"}>Contact</Link>
+            <Link
+              className="rounded-md py-2 text-sm font-medium text-gray-900 hover:text-blue-600"
+              to={"/about"}>About</Link>
+            {admin && <div className="flex gap-7">
+              
               <Link
-                key={index}
-                to={link.to}
                 className="rounded-md py-2 text-sm font-medium text-gray-900 hover:text-blue-600"
-              >
-                {link.name}
-              </Link>
-            ))}
+                to={"/admin"}>Admin</Link> 
+
+            </div>}
+
           </div>
 
-          {/* Search and Icons Section */}
-          <div className="hidden items-center space-x-6 md:flex">
-            {/* Search Bar */}
+          <div className="hidden items-center space-x-6 md:flex relative">
             <div className="relative flex h-10 items-center rounded-md border p-3">
               <input
                 type="text"
@@ -67,39 +73,42 @@ const LowerNavbar = () => {
               <FiSearch className="size-4" />
             </div>
 
-            {/* Icons */}
-            <button
-              className="text-gray-500 hover:text-black"
-              aria-label="Favorites"
-            >
+            <button className="text-gray-500 hover:text-black" aria-label="Favorites">
               <FiHeart className="size-5" />
             </button>
-            <button
-              className="text-gray-500 hover:text-black"
-              aria-label="Cart"
-            >
-              <FiShoppingCart className="size-5" />
-            </button>
-            {isAuthenticated &&(<Dropdown username={user.nickname} imageUrl={user.picture} />) }
+
+            <div className="relative">
+              <Link to="/cart" className="text-gray-500 hover:text-black relative">
+                <FiShoppingCart className="size-5" />
+                {cartItems.length > 0 && (
+                  <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] text-white">
+                    {cartItems.length}
+                  </span>
+                )}
+              </Link>
+            </div>
+
+            {user && <Dropdown username={user.fullname} />}
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="space-y-1 px-2 pb-3 pt-2 md:hidden">
-          {navLinks.map((link, index) => (
-            <Link
-              key={index}
-              to={link.to}
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:text-blue-600"
-            >
-              {link.name}
-            </Link>
-          ))}
-        </div>
-      )}
-    </nav>
+      {
+        isMobileMenuOpen && (
+          <div className="space-y-1 px-2 pb-3 pt-2 md:hidden">
+            {navLinks.map((link, index) => (
+              <Link
+                key={index}
+                to={link.to}
+                className="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:text-blue-600"
+              >
+                {link.name}
+              </Link>
+            ))}
+          </div>
+        )
+      }
+    </nav >
   );
 };
 

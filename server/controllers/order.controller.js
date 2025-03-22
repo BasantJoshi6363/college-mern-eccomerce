@@ -2,6 +2,9 @@ import { Order } from "../model/order.model.js";
 // Create a new order
 export const createOrder = async (req, res) => {
   const { orderItems, shippingAddress, paymentMethod, totalPrice } = req.body;
+  console.log(req.body)
+  const { id } = req.user;
+  console.log(id)
 
   if (orderItems && orderItems.length === 0) {
     return res.status(400).json({ message: 'No order items' });
@@ -9,14 +12,14 @@ export const createOrder = async (req, res) => {
 
   try {
     const order = new Order({
-      user: req.user._id,
+      user: id,
       orderItems,
       shippingAddress,
       paymentMethod,
       totalPrice
     });
 
-    const createdOrder = await order.save();
+    const createdOrder = await Order.create(req.body);
     res.status(201).json(createdOrder);
   } catch (error) {
     res.status(500).json({ message: 'Error creating order', error });
@@ -68,6 +71,12 @@ export const updateOrderToPaid = async (req, res) => {
   }
 };
 
+export const getAllOrder = async (req, res) => {
+  const username = req.user.fullname
+  const orders = await Order.find({})
+  res.status(200).json(orders)
+}
+
 // Update order to delivered
 export const updateOrderToDelivered = async (req, res) => {
   const { orderId } = req.params;
@@ -88,3 +97,23 @@ export const updateOrderToDelivered = async (req, res) => {
     res.status(500).json({ message: 'Error updating order to delivered', error });
   }
 };
+export const updateOrder = async (req, res) => {
+  try {
+    console.log("updating some info")
+    const orderId = req.params.orderId.split(":")[1];
+    await Order.findByIdAndUpdate(orderId, { data: req.body }, { new: true })
+    res.status(200).json({ message: " updated order successfully." })
+  } catch (error) {
+
+  }
+}
+
+export const deleteOrder = async (req, res) => {
+  try {
+    const orderId = req.params.orderId.split(":")[1];
+    await Order.findByIdAndDelete(orderId);
+    res.json({ message: "order deleted successfully" })
+  } catch (error) {
+    console.log(error)
+  }
+}

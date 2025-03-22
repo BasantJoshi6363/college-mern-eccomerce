@@ -17,7 +17,7 @@ function SimpleSlider() {
     slidesToScroll: 1
   };
   return (
-    <div className="slider-container h-[270px] w-[80vw] px-6 py-2">
+    <div className="slider-container h-[270px] w-[82vw] px-6 py-2">
       <Slider {...settings}>
        <div className="h-64 w-full">
        <img className="h-[100%] w-[100%] object-fill" src={car1} alt="" />

@@ -4,11 +4,13 @@ import cloudinary from "../config/cloudinary.js";
 // Create a new product
 export const createProduct = async (req, res) => {
   try {
-    console.log("hello")
-    const { name, description, price,category,stock } = req.body;
-    const image = req.file ? req.file.path : null;
+    const { name, description, price, category, stock, isFlash } = req.body;
 
-    if (!name || !price || !image) {
+    const result = await cloudinary.uploader.upload(req.file.path)
+
+
+
+    if (!name || !price) {
       return res.status(400).json({ message: "Please provide all fields" });
     }
 
@@ -16,10 +18,11 @@ export const createProduct = async (req, res) => {
       name,
       description,
       price,
-      image,
       category,
+      image: result.secure_url,
       stock,
       user: req.user._id,
+      isFlash: false
     });
 
     res.status(201).json(product);
@@ -34,9 +37,16 @@ export const getProducts = async (req, res) => {
   res.json(products);
 };
 
+
+export const flashSale = async (req, res) => {
+  const products = await Product.find({ isFlash: true })
+  res.json(products)
+}
+
 // Get single product
 export const getProductById = async (req, res) => {
-  const product = await Product.findById(req.params.id);
+  const id = req.params.id.split(":")[1]
+  const product = await Product.findById(id);
   if (!product) {
     return res.status(404).json({ message: "Product not found" });
   }
@@ -57,9 +67,8 @@ export const deleteProduct = async (req, res) => {
 };
 //update product
 export const updateProduct = async (req, res) => {
-  
-  const productId  = req.params.id;
-  const { name, description, price } = req.body;
+  const productId = req.params.id;
+  const { name, description, price, stock, category,isFlash } = req.body;
   let image;
 
   try {
@@ -71,7 +80,7 @@ export const updateProduct = async (req, res) => {
 
     const updatedProduct = await Product.findByIdAndUpdate(
       productId,
-      { name, description, price, image },
+      { name, description, price, image, category, stock,isFlash },
       { new: true, runValidators: true } // Return the updated document and run schema validators
     );
 
@@ -85,16 +94,15 @@ export const updateProduct = async (req, res) => {
   }
 };
 
-export const getProductByCategory = async(req,res)=>{
+export const getProductByCategory = async (req, res) => {
   try {
-    const cat = req.params.cat;
-    const products = await Product.find({category : cat})
+    const { category } = req.params
+    const products = await Product.find({ category: category })
     return res.json({
-      success : true,
-      message : "product get by category",
+      success: true,
+      message: "product get by category",
       products
     })
-    console.log(cat)
   } catch (error) {
     res.status(500).json({ message: 'Error getting product', error });
   }

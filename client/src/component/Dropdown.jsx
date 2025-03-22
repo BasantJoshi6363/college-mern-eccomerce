@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const Dropdown = ({ imageUrl,username }) => {
+const Dropdown = ({ username, imageUrl }) => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
+    const avatar =  username.split("")[0]
 
     const handleMouseEnter = () => {
         setIsOpen(true);
@@ -31,13 +32,7 @@ const Dropdown = ({ imageUrl,username }) => {
 
     return (
         <div className="relative inline-block" ref={dropdownRef}>
-            <img
-                src={imageUrl}
-                alt="Dropdown Trigger"
-                className="cursor-pointer size-8 rounded-full"
-                onMouseEnter={handleMouseEnter}
-            />
-
+            <div onMouseEnter={handleMouseEnter} className="circle size-8 flex items-center justify-center bg-green-500 text-white rounded-full">{avatar.toUpperCase()}</div>
             <div
                 className={`${isOpen ? 'absolute' : 'hidden'
                     } z-10 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 right-0`}

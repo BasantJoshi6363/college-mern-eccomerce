@@ -1,14 +1,16 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { FiPlus, FiMinus, FiHeart } from "react-icons/fi";
 import { useParams } from "react-router-dom";
 import axios from "axios"
+import { useCart } from "../context/CartContext";
 function SinglePage() {
     const [product, setProduct] = useState([])
+    const { addToCart } = useCart();
     const { id } = useParams()
     const fetchById = async () => {
         try {
-            let resp = await axios.get(`https://fakestoreapi.com/products/${id}`)
+            let resp = await axios.get(`http://localhost:5000/api/products/:${id}`)
             setProduct(resp.data)
             console.log(resp.data)
 
@@ -38,20 +40,10 @@ function SinglePage() {
             <div className="w-[500px]">
                 <div className="flex-1">
                     <h2 className="text-2xl font-semibold">{product.title}</h2>
-                    <div className="flex items-center text-yellow-500 mt-1">
-                        {[...Array(4)].map((_, i) => (
-                            <FaStar key={i} />
-                        ))}
-                        <FaStar className="text-gray-300" />
-                        <span className="text-gray-500 text-sm ml-2">(150 Reviews) | <span className="text-green-500">In Stock</span></span>
-                    </div>
-                    <p className="text-xl font-semibold mt-2">{product.price}</p>
+                    
+                    <p className="text-xl font-semibold mt-2">{product.name}</p>
                     <p className="text-gray-600 text-sm mt-2">{product.description}
                     </p>
-
-
-
-
 
                     {/* Quantity & Buy Now */}
                     <div className="mt-6 flex items-center space-x-4">
@@ -60,7 +52,7 @@ function SinglePage() {
                             <span className="px-4 py-2">{quantity}</span>
                             <button className="px-4 py-3 bg-gray-200" onClick={handleIncrease}><FiPlus /></button>
                         </div>
-                        <button className="px-6 py-2 bg-red-500 text-white rounded-lg shadow hover:bg-red-600">Buy Now</button>
+                        <button onClick={() => addToCart(product)} className="px-6 py-2 bg-red-500 text-white rounded-lg shadow hover:bg-red-600">Buy Now</button>
                         <button className="text-gray-600"><FiHeart size={24} /></button>
                     </div>
 

@@ -2,12 +2,10 @@ import jwt from "jsonwebtoken"
 import { User } from "../model/user.model.js";
 
 export const protect = async (req, res, next) => {
-  console.log("hiii")
   let token = req.headers.authorization;
   if (!token || !token.startsWith("Bearer ")) {
     return res.status(401).json({ message: "Not authorized" });
   }
-  
   try {
     const decoded = jwt.verify(token.split(" ")[1], process.env.JWT_SECRET);
     req.user = await User.findById(decoded.id).select("-password");
